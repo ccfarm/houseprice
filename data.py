@@ -2,6 +2,8 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 from sklearn.model_selection import train_test_split
+from scipy.stats import norm, skew
+from scipy.special import boxcox1p
 
 def load_data():
     data_train = pd.read_csv("train.csv")
@@ -346,6 +348,8 @@ def load_data():
     tmp = pd.get_dummies(tmp, prefix='SaleCondition_', dummy_na=True)
     X = pd.concat([X, tmp], axis=1)
 
+    X['TotalSF'] = X['TotalBsmtSF'] + X['1stFlrSF'] + X['2ndFlrSF']
+
     imp = pd.read_csv('feature_importances.csv')
     imp = imp[:90].feature
 
@@ -354,11 +358,15 @@ def load_data():
             #if x in X.columns:
                 del X[x]
 
+    # for x in X.columns.copy():
+    #     if abs(skew(X[x])) > 0.75:
+    #         X[x] = boxcox1p(X[x], 0.15)
+
     # scaler = MinMaxScaler()
     # X = scaler.fit_transform(X)
 
     X_train = X[:train_shape[0]]
-    y_train = data_train.SalePrice
+    y_train = np.log1p(data_train.SalePrice)
     X_test = X[train_shape[0]:]
 
     id = np.array(data_test['Id']).reshape(-1, 1)

@@ -12,13 +12,17 @@ def predict(X_train, y_train, X_test):
                                     min_samples_split=2,
                                     min_samples_leaf=1,
                                     subsample=0.2)
+    # clf = GradientBoostingRegressor(n_estimators=3000, learning_rate=0.05,
+    #                                max_depth=4, max_features='sqrt',
+    #                                min_samples_leaf=15, min_samples_split=10,
+    #                                loss='huber', random_state =5)
     clf.fit(X_train,y_train)
     result = clf.predict(X_test).reshape(-1,1)
     return result
 
 if __name__ == "__main__":
     X_train, y_train, X_test, id = data.load_data()
-    result = predict(X_train, y_train, X_test)
+    result = np.expm1(predict(X_train, y_train, X_test))
 
     ans = np.hstack((id,result))
     ans = pd.DataFrame(ans, columns=['Id','SalePrice'])
