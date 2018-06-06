@@ -1,4 +1,4 @@
-import xgboost as xgb
+import lightgbm as lgb
 import data
 import numpy as np
 import pandas as pd
