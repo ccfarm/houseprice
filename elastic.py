@@ -1,4 +1,4 @@
-from sklearn.linear_model import Lasso
+from sklearn.linear_model import ElasticNet
 import data
 import numpy as np
 import pandas as pd
@@ -7,7 +7,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.pipeline import make_pipeline
 
 def predict(X_train, y_train, X_test):
-    clf = make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1))
+    clf = make_pipeline(RobustScaler(), ElasticNet(alpha=0.0005, l1_ratio=.9, random_state=3))
     clf.fit(X_train,y_train)
     result = clf.predict(X_test).reshape(-1,1)
     return result

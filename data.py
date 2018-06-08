@@ -375,5 +375,5 @@ def load_data():
 
 def data_val():
     X_train, y_train, X_test, id = load_data()
-    X_t, X_v, y_t, y_v = train_test_split(X_train, y_train, test_size=0.3)
+    X_t, X_v, y_t, y_v = train_test_split(X_train, y_train, test_size=0.1)
     return X_t, X_v, y_t, y_v

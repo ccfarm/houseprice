@@ -1,4 +1,4 @@
-from sklearn.linear_model import Lasso
+from sklearn.kernel_ridge import KernelRidge
 import data
 import numpy as np
 import pandas as pd
@@ -7,7 +7,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.pipeline import make_pipeline
 
 def predict(X_train, y_train, X_test):
-    clf = make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1))
+    clf = KernelRidge(alpha=0.6, kernel='polynomial', degree=2, coef0=2.5)
     clf.fit(X_train,y_train)
     result = clf.predict(X_test).reshape(-1,1)
     return result
