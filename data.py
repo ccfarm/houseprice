@@ -13,8 +13,32 @@ def load_data():
 
     data = pd.concat([data_train, data_test], axis=0, ignore_index=True)
 
+    x = data.loc[np.logical_not(data["LotFrontage"].isnull()), "LotArea"]
+    y = data.loc[np.logical_not(data["LotFrontage"].isnull()), "LotFrontage"]
+    # plt.scatter(x, y)
+    t = (x <= 25000) & (y <= 150)
+    p = np.polyfit(x[t], y[t], 1)
+    data.loc[data['LotFrontage'].isnull(), 'LotFrontage'] = np.polyval(p, data.loc[data['LotFrontage'].isnull(), 'LotArea'])
+
+    # data.YrSold = 2010 - data.YrSold
+    # data.YrSold = data.YrSold.fillna(data.YrSold.mean())
+    # year_map = pd.concat(
+    #     pd.Series(i+1, index=range(1871 + i * 20, 1891 + i * 20)) for i in range(0, 7))
+    # data.GarageYrBlt = data.GarageYrBlt.map(year_map)
+    # data.loc[data['GarageYrBlt'].isnull(), 'GarageYrBlt'] = 0
+    #
+    # data.YearBuilt = data.YearBuilt.map(year_map)
+    # data.YearRemodAdd = data.YearRemodAdd.map(year_map)
+
     tmp = data.MSSubClass
     X = pd.get_dummies(tmp, prefix='MSSubClass_', dummy_na=True)
+
+    numeric_feats = data.dtypes[data.dtypes != "object"].index
+    t = data[numeric_feats].quantile(.95)
+    use_max_scater = t[t == 0].index
+    use_95_scater = t[t != 0].index
+    data[use_max_scater] = data[use_max_scater] / data[use_max_scater].max()
+    data[use_95_scater] = data[use_95_scater] / data[use_95_scater].quantile(.95)
 
     tmp = data.MSZoning
     tmp = pd.get_dummies(tmp, prefix='MSZoning_', dummy_na=True)

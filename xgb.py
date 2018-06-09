@@ -14,7 +14,7 @@ def predict(X_train, y_train, X_test):
                  reg_alpha=0.9,
                  reg_lambda=0.6,
                  subsample=0.2,
-                 seed=42,
+                random_state=42,
                  silent=1)
     clf.fit(X_train,y_train)
     result = clf.predict(X_test).reshape(-1,1)
