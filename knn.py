@@ -11,7 +11,7 @@ def predict(X_train, y_train, X_test):
 
 if __name__ == "__main__":
     X_train, y_train, X_test, id = data.load_data()
-    result = predict(X_train, y_train, X_test)
+    result = np.expm1(predict(X_train, y_train, X_test))
 
     ans = np.hstack((id,result))
     ans = pd.DataFrame(ans, columns=['Id','SalePrice'])

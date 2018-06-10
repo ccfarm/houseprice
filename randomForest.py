@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
 def predict(X_train, y_train, X_test):
-    clf = RandomForestRegressor(n_estimators=1000,max_features='sqrt', max_depth=19,
+    clf = RandomForestRegressor(n_estimators=10000,max_features='sqrt', max_depth=19,
                                 random_state=1,
                                 min_samples_split=2,
                                 min_samples_leaf=1,

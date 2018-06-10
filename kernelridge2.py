@@ -1,10 +1,13 @@
-from sklearn.svm import SVR
+from sklearn.kernel_ridge import KernelRidge
 import data
 import numpy as np
 import pandas as pd
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import RobustScaler
+from sklearn.pipeline import make_pipeline
 
 def predict(X_train, y_train, X_test):
-    clf = SVR(C=3000, epsilon=0, kernel='linear')
+    clf = make_pipeline(RobustScaler(), KernelRidge(alpha=20, kernel='polynomial', degree=3, coef0=2.5))
     clf.fit(X_train,y_train)
     result = clf.predict(X_test).reshape(-1,1)
     return result
